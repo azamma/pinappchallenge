@@ -1,2 +1,0 @@
-# pinappchallenge
-PinApp Challenge
