@@ -13,8 +13,18 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase utilitaria para realizar operaciones relacionadas con clientes.
+ */
 public class ClientUtils {
 
+
+    /**
+     * Convierte un objeto ClientDTO a una entidad Client.
+     *
+     * @param clientDTO El objeto ClientDTO a mapear.
+     * @return La entidad Client mapeada.
+     */
     public static Client mapToEntity(ClientDTO clientDTO) {
         Client client = new Client();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -28,26 +38,40 @@ public class ClientUtils {
         return client;
     }
 
+    /**
+     * Convierte una lista de entidades Client a un objeto ClientKpiDTO que contiene estadísticas de los clientes.
+     *
+     * @param clients La lista de entidades Client.
+     * @return El objeto ClientKpiDTO con las estadísticas calculadas.
+     */
     public static ClientKpiDTO mapToKpiDTO(List<Client> clients) {
+        // Crea un nuevo objeto ClientKpiDTO para almacenar las estadísticas
         ClientKpiDTO kpiDTO = new ClientKpiDTO();
 
         // Calcula el promedio de edad
         double sumEdad = clients.stream()
-                .mapToDouble(client -> Double.parseDouble(client.getAge()))
-                .sum();
-        double promedioEdad = sumEdad / clients.size();
-        kpiDTO.setPromedioEdad(promedioEdad);
+                .mapToDouble(client -> Double.parseDouble(client.getAge())) // Obtiene la edad de cada cliente como un Double
+                .sum(); // Suma todas las edades
+        double promedioEdad = sumEdad / clients.size(); // Calcula el promedio dividiendo la suma por la cantidad de clientes
+        kpiDTO.setPromedioEdad(promedioEdad); // Establece el promedio de edad en el objeto ClientKpiDTO
 
         // Calcula la desviación estándar de las edades
         double sumEdadCuadrados = clients.stream()
-                .mapToDouble(client -> Math.pow(Double.parseDouble(client.getAge()) - promedioEdad, 2))
-                .sum();
-        double desviacionEstandar = Math.sqrt(sumEdadCuadrados / clients.size());
-        kpiDTO.setDesviacionEstandar(desviacionEstandar);
+                .mapToDouble(client -> Math.pow(Double.parseDouble(client.getAge()) - promedioEdad, 2)) // Calcula el cuadrado de la diferencia entre la edad y el promedio
+                .sum(); // Suma todos los cuadrados
+        double desviacionEstandar = Math.sqrt(sumEdadCuadrados / clients.size()); // Calcula la raíz cuadrada de la suma dividida por la cantidad de clientes
+        kpiDTO.setDesviacionEstandar(desviacionEstandar); // Establece la desviación estándar en el objeto ClientKpiDTO
 
-        return kpiDTO;
+        return kpiDTO; // Devuelve el objeto ClientKpiDTO con las estadísticas calculadas
     }
 
+
+    /**
+     * Convierte una lista de entidades Client a una lista de objetos ClientListDTO.
+     *
+     * @param clients La lista de entidades Client.
+     * @return La lista de objetos ClientListDTO.
+     */
     public static List<ClientListDTO> mapToListDTO(List<Client> clients) {
         List<ClientListDTO> listDTOs = new ArrayList<>();
         for (Client client : clients) {
@@ -67,6 +91,13 @@ public class ClientUtils {
         return listDTOs;
     }
 
+
+    /**
+     * Verifica si la edad proporcionada en un objeto ClientDTO coincide con la fecha de cumpleaños.
+     *
+     * @param clientDTO El objeto ClientDTO que contiene la edad y la fecha de cumpleaños.
+     * @return true si la edad coincide con la fecha de cumpleaños, false de lo contrario.
+     */
     public static boolean isAgeMatchingBirthday(ClientDTO clientDTO) {
         if (clientDTO.getAge() == null || clientDTO.getBirthday() == null) {
             return true; // Skip validation if either age or birthday is null
