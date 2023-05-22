@@ -3,7 +3,7 @@ package com.pinapp.challenge.services;
 import com.pinapp.challenge.daos.ClientDao;
 import com.pinapp.challenge.dtos.ClientDTO;
 import com.pinapp.challenge.entities.Client;
-import com.pinapp.challenge.utils.ClientMapper;
+import com.pinapp.challenge.utils.ClientUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class ClientService {
         }
 
         // Crea un nuevo objeto Client a partir del objeto ClientDTO proporcionado
-        Client client = ClientMapper.mapToEntity(clientDTO);
+        Client client = ClientUtils.mapToEntity(clientDTO);
 
         // Guarda el objeto Client en la base de datos
         clientDao.save(client);

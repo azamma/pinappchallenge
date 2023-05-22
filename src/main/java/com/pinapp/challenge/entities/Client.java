@@ -18,15 +18,16 @@ public class Client {
     private Long id;
 
     @Column(nullable = false)
-    private String name;
+    private String firstName;
 
     @Column(nullable = false)
-    private String lastname;
+    private String lastName;
 
     @Column(nullable = false)
     private String age;
 
     @Column(nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date birthday;
 
     @Column(nullable = false)
@@ -43,51 +44,4 @@ public class Client {
         isActive = b;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public Date getBirthDate() {
-        return birthday;
-    }
-
-    public void setBirthDate(Date birthDate) {
-        this.birthday = birthDate;
-    }
-
-    public Date getModified() {
-        return modified;
-    }
-
-    public void setModified(Date modified) {
-        this.modified = modified;
-    }
-
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 }

@@ -25,7 +25,6 @@ public class ClientDTO {
      * Correo electrónico del client
      */
     @NotEmpty(message = "Falta el campo lastName") // Validación: El campo no debe estar vacío
-    @Pattern(regexp = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Z|a-z]{2,}", message = "El formato del correo electrónico es inválido") // Validación: El campo debe tener un formato de correo electrónico válido
     private String lastName;
 
     /**

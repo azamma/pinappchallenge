@@ -4,12 +4,13 @@
 
 package com.pinapp.challenge.controllers;
 
+import com.pinapp.challenge.controllers.responseobjects.ErrorResponse;
 import com.pinapp.challenge.dtos.ClientDTO;
 import com.pinapp.challenge.dtos.ClientKpiDTO;
 import com.pinapp.challenge.dtos.ClientListDTO;
 import com.pinapp.challenge.entities.Client;
 import com.pinapp.challenge.services.ClientService;
-import com.pinapp.challenge.utils.ClientMapper;
+import com.pinapp.challenge.utils.ClientUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -32,8 +33,11 @@ public class ClientController {
      * @param clientDTO DTO que contiene los campos del request.
      * @return ResponseEntity con un objeto ClientResponseDTO que representa el client creado.
      */
-    @PostMapping("/creacliente")
+    @PostMapping
     public ResponseEntity<?> createClient(@Valid @RequestBody ClientDTO clientDTO) {
+        if (!ClientUtils.isAgeMatchingBirthday(clientDTO)) {
+            return ResponseEntity.badRequest().body(new ErrorResponse("La edad no concuerda con el cumpleaños"));
+        }
         Client clientCreated = clientService.saveClient(clientDTO);
         return ResponseEntity.ok(clientCreated);
     }
@@ -46,7 +50,7 @@ public class ClientController {
     @GetMapping("/kpideclientes")
     public ResponseEntity<ClientKpiDTO> getClientKpi() {
         List<Client> clients = clientService.getAllClients();
-        ClientKpiDTO kpiDTO = ClientMapper.mapToKpiDTO(clients);
+        ClientKpiDTO kpiDTO = ClientUtils.mapToKpiDTO(clients);
         return ResponseEntity.ok(kpiDTO);
     }
 
@@ -58,7 +62,7 @@ public class ClientController {
     @GetMapping("/listclientes")
     public ResponseEntity<List<ClientListDTO>> getClientList() {
         List<Client> clients = clientService.getAllClients();
-        List<ClientListDTO> listDTO = ClientMapper.mapToListDTO(clients);
+        List<ClientListDTO> listDTO = ClientUtils.mapToListDTO(clients);
         return ResponseEntity.ok(listDTO);
     }
 }

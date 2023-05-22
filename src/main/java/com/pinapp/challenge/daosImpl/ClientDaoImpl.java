@@ -1,5 +1,5 @@
 /**
- Implementación del Data Access Object (DAO) para la entidad User
+ Implementación del Data Access Object (DAO) para la entidad Client
  */
 package com.pinapp.challenge.daosImpl;
 
@@ -27,15 +27,15 @@ public class ClientDaoImpl implements ClientDao {
 
     /**
      * Guarda un nuevo client en la base de datos
-     * @param user el client a guardar
+     * @param client el client a guardar
      * @return el client guardado
      */
     @Override
-    public Client save(Client user) {
-        logger.info("Guardando client: {}", user);
-        entityManager.persist(user);
+    public Client save(Client client) {
+        logger.info("Guardando client: {}", client);
+        entityManager.persist(client);
         logger.info("client guardado exitosamente");
-        return user;
+        return client;
     }
 
     /**
@@ -66,31 +66,20 @@ public class ClientDaoImpl implements ClientDao {
      */
     @Override
     public Client findByUsername(String username) {
-        TypedQuery<Client> query = entityManager.createQuery("SELECT u FROM Client u WHERE u.username = :username", Client.class);
+        TypedQuery<Client> query = entityManager.createQuery("SELECT c FROM Client c WHERE c.username = :username", Client.class);
         query.setParameter("username", username);
         return query.getSingleResult();
     }
 
     /**
-     * Busca un client por su token de acceso
-     * @param token el token de acceso a buscar
-     * @return el client encontrado o null si no existe
-     */
-    @Override
-    public Client findByToken(String token) {
-        TypedQuery<Client> query = entityManager.createQuery("SELECT u FROM Client u WHERE u.token = :token", Client.class);
-        query.setParameter("token", token);
-        return query.getSingleResult();
-    }
-
-    /**
      * Busca un client por su dirección de correo electrónico
-     * @param email la dirección de correo electrónico a buscar
+     * @param firstName el primer nombre a buscar
+     * @param lastName el apellido a comparar
      * @return el client encontrado o null si no existe
      */
     @Override
     public Client findByFullName(String firstName, String lastName) {
-        String jpql = "SELECT u FROM Client u WHERE u.firstName = :firstName AND u.lastName = :lastName";
+        String jpql = "SELECT c FROM Client c WHERE c.firstName = :firstName AND c.lastName = :lastName";
         TypedQuery<Client> query = entityManager.createQuery(jpql, Client.class);
         query.setParameter("firstName", firstName);
         query.setParameter("lastName", lastName);
@@ -101,21 +90,21 @@ public class ClientDaoImpl implements ClientDao {
 
     /**
      * Actualiza un client existente en la base de datos
-     * @param user el client a actualizar
+     * @param client el client a actualizar
      * @return el client actualizado
      */
     @Override
-    public Client update(Client user) {
-        return entityManager.merge(user);
+    public Client update(Client client) {
+        return entityManager.merge(client);
     }
 
     /**
      * Elimina un client de la base de datos
-     * @param user el client a eliminar
+     * @param client el client a eliminar
      */
     @Override
-    public void delete(Client user) {
-        entityManager.remove(user);
+    public void delete(Client client) {
+        entityManager.remove(client);
     }
 
 

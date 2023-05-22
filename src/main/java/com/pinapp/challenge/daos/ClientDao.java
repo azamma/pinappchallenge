@@ -44,13 +44,6 @@ public interface ClientDao {
     Client findByUsername(String username);
 
     /**
-     * Busca un client por su token de autenticación.
-     * @param token El token de autenticación a buscar.
-     * @return El client encontrado, o null si no se encuentra.
-     */
-    Client findByToken(String token);
-
-    /**
      * Actualiza los datos de un client en la base de datos.
      * @param client El client a actualizar.
      * @return El client actualizado.
